@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:\Development\Projects\Gydroservice\Насосы\GUI.ui'
+# Form implementation generated from reading ui file 'GUI_try.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -23,17 +23,17 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_Dialog(object):
-    def setupUi(self, Form):
-        Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(645, 692)
+    def setupUi(self, Dialog):
+        Dialog.setObjectName(_fromUtf8("Dialog"))
+        Dialog.resize(645, 692)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
-        Form.setSizePolicy(sizePolicy)
-        Form.setMinimumSize(QtCore.QSize(644, 691))
-        Form.setMaximumSize(QtCore.QSize(646, 693))
-        self.comboBox = QtGui.QComboBox(Form)
+        sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
+        Dialog.setSizePolicy(sizePolicy)
+        Dialog.setMinimumSize(QtCore.QSize(644, 691))
+        Dialog.setMaximumSize(QtCore.QSize(646, 693))
+        self.comboBox = QtGui.QComboBox(Dialog)
         self.comboBox.setEnabled(True)
         self.comboBox.setGeometry(QtCore.QRect(10, 10, 211, 21))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
@@ -90,7 +90,7 @@ class Ui_Dialog(object):
         self.comboBox.addItem(_fromUtf8(""))
         self.comboBox.addItem(_fromUtf8(""))
         self.comboBox.addItem(_fromUtf8(""))
-        self.tableWidget = QtGui.QTableWidget(Form)
+        self.tableWidget = QtGui.QTableWidget(Dialog)
         self.tableWidget.setGeometry(QtCore.QRect(250, 10, 381, 671))
         self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
         self.tableWidget.setColumnCount(3)
@@ -101,7 +101,7 @@ class Ui_Dialog(object):
         self.tableWidget.setHorizontalHeaderItem(1, item)
         item = QtGui.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, item)
-        self.pushButton_2 = QtGui.QPushButton(Form)
+        self.pushButton_2 = QtGui.QPushButton(Dialog)
         self.pushButton_2.setEnabled(True)
         self.pushButton_2.setGeometry(QtCore.QRect(120, 610, 111, 31))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
@@ -152,7 +152,7 @@ class Ui_Dialog(object):
         self.pushButton_2.setDefault(False)
         self.pushButton_2.setFlat(False)
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
-        self.pushButton = QtGui.QPushButton(Form)
+        self.pushButton = QtGui.QPushButton(Dialog)
         self.pushButton.setEnabled(True)
         self.pushButton.setGeometry(QtCore.QRect(10, 610, 101, 31))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
@@ -203,7 +203,7 @@ class Ui_Dialog(object):
         self.pushButton.setDefault(True)
         self.pushButton.setFlat(False)
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.pushButton_3 = QtGui.QPushButton(Form)
+        self.pushButton_3 = QtGui.QPushButton(Dialog)
         self.pushButton_3.setEnabled(True)
         self.pushButton_3.setGeometry(QtCore.QRect(10, 650, 101, 31))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
@@ -254,41 +254,49 @@ class Ui_Dialog(object):
         self.pushButton_3.setDefault(False)
         self.pushButton_3.setFlat(False)
         self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
-        self.pushButton_4 = QtGui.QPushButton(Form)
+        self.pushButton_4 = QtGui.QPushButton(Dialog)
         self.pushButton_4.setGeometry(QtCore.QRect(120, 650, 111, 31))
         self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
+        self.comboBox_2 = QtGui.QComboBox(Dialog)
+        self.comboBox_2.setEnabled(False)
+        self.comboBox_2.setGeometry(QtCore.QRect(10, 40, 151, 22))
+        self.comboBox_2.setObjectName(_fromUtf8("comboBox_2"))
 
-        self.retranslateUi(Form)
+        self.spinBox = QtGui.QSpinBox(Dialog)
+        self.spinBox.setEnabled(False)
+        self.spinBox.setGeometry(QtCore.QRect(180, 40, 42, 22))
+        self.spinBox.setObjectName(_fromUtf8("spinBox"))
+
+        self.retranslateUi(Dialog)
         self.comboBox.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(_translate("Form", "Программа учета деталей", None))
-        self.comboBox.setItemText(0, _translate("Form", "50НР4", None))
-        self.comboBox.setItemText(1, _translate("Form", "50НР6.3", None))
-        self.comboBox.setItemText(2, _translate("Form", "50НР10", None))
-        self.comboBox.setItemText(3, _translate("Form", "50НР14", None))
-        self.comboBox.setItemText(4, _translate("Form", "50НР16", None))
-        self.comboBox.setItemText(5, _translate("Form", "50НР32", None))
-        self.comboBox.setItemText(6, _translate("Form", "50НР32", None))
+    def retranslateUi(self, Dialog):
+        Dialog.setWindowTitle(_translate("Dialog", "Программа учета деталей", None))
+        self.comboBox.setItemText(0, _translate("Dialog", "50НР4", None))
+        self.comboBox.setItemText(1, _translate("Dialog", "50НР6.3", None))
+        self.comboBox.setItemText(2, _translate("Dialog", "50НР10", None))
+        self.comboBox.setItemText(3, _translate("Dialog", "50НР14", None))
+        self.comboBox.setItemText(4, _translate("Dialog", "50НР16", None))
+        self.comboBox.setItemText(5, _translate("Dialog", "50НР32", None))
         item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("Form", "Детали", None))
+        item.setText(_translate("Dialog", "Детали", None))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("Form", "Склад", None))
+        item.setText(_translate("Dialog", "Склад", None))
         item = self.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("Form", "Требуется", None))
-        self.pushButton_2.setText(_translate("Form", "Выход", None))
-        self.pushButton.setText(_translate("Form", "Выполнить заказ", None))
-        self.pushButton_3.setText(_translate("Form", "Пополнить склад", None))
-        self.pushButton_4.setText(_translate("Form", "Посмотреть склад", None))
+        item.setText(_translate("Dialog", "Требуется", None))
+        self.pushButton_2.setText(_translate("Dialog", "Выход", None))
+        self.pushButton.setText(_translate("Dialog", "Выполнить заказ", None))
+        self.pushButton_3.setText(_translate("Dialog", "Пополнить склад", None))
+        self.pushButton_4.setText(_translate("Dialog", "Посмотреть склад", None))
 
 
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    Form = QtGui.QWidget()
+    Dialog = QtGui.QWidget()
     ui = Ui_Dialog()
-    ui.setupUi(Form)
-    Form.show()
+    ui.setupUi(Dialog)
+    Dialog.show()
     sys.exit(app.exec_())
 
