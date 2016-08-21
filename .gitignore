@@ -9,3 +9,8 @@ __pycache__/
 # Other files #
 ###############
 Pumps.db
+
+# Build files #
+###############
+build/
+dist/
