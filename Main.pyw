@@ -13,21 +13,18 @@ Dialog = QtGui.QWidget()
 ui = GUI.Ui_Dialog()
 ui.setupUi(Dialog)
 Dialog.setFixedSize(645, 692)
-Dialog.setWindowIcon(QtGui.QIcon('5571.ico')) ## Making application and setting it right
+Dialog.setWindowIcon(QtGui.QIcon('5571.ico'))   ## Making application and setting it right
 count_press = 2
-arow = 0
-
 
 
 QtCore.QObject.connect(ui.pushButton, QtCore.SIGNAL("clicked()"), lambda: count())
 QtCore.QObject.connect(ui.pushButton_2, QtCore.SIGNAL("clicked()"), Dialog, QtCore.SLOT('close()'))
 QtCore.QObject.connect(ui.pushButton_3, QtCore.SIGNAL("clicked()"), lambda: full(ui))
 QtCore.QObject.connect(ui.pushButton_4, QtCore.SIGNAL("clicked()"), lambda: stock(ui))
-QtCore.QObject.connect(ui.comboBox, QtCore.SIGNAL("activated(const QString&)"), lambda: load(ui)) ## Connecting functions with widgets
+QtCore.QObject.connect(ui.comboBox, QtCore.SIGNAL("activated(const QString&)"), lambda: load(ui))   ## Connecting functions with widgets
 
 
 def count():      ## Making function to count SQLite3 data
-    global condition
     if ui.comboBox.currentText() == '50НР4':
         condition = "Pumps = '50НР4' OR Pumps = '50НР4/6' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1'"
     elif ui.comboBox.currentText() == '50НР6.3':
@@ -36,20 +33,24 @@ def count():      ## Making function to count SQLite3 data
         condition = "Pumps = '50НР10' OR Pumps = '50НР10/16' OR Pumps = '50НР10/16/32' OR Pumps = 'All' OR Pumps = 'All1'"
     elif ui.comboBox.currentText() == '50НР14':
         condition = "Pumps = '50НР14' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1'"
-    print(condition)
+    elif ui.comboBox.currentText() == '50НР16':
+        condition = "Pumps = '50НР16' OR Pumps = '50НР10/16' OR Pumps = '50НР10/16/32' OR Pumps = 'All' OR Pumps = 'All1'"
+    elif ui.comboBox.currentText() == '50НР32':
+        condition = "Pumps = '50НР32' OR Pumps = '50НР10/16/32' OR Pumps = 'All' OR Pumps = 'All1'"
     cur.execute("""UPDATE Details SET Stock = Stock - Needed WHERE %s""" % condition)
     cur.execute("""UPDATE Details SET Needed = 3 WHERE Pumps = 'All'""")
     con.commit()
+    """
 
     msg = QtGui.QInputDialog()
     a = msg.getText(msg, 'Введите', 'Введите')
-    print(a)
+    NEW FEATURE!
+
+    """
 
 
 def full(ui):       ## Making function to increase amount of parts
     global count_press
-    arow = 0
-    i = []
     if ui.comboBox.currentText() == '50НР4':
         condition = "(Pumps = '50НР4' OR Pumps = '50НР4/6' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1')"
         cur.execute("""SELECT Part FROM Details WHERE %s ORDER BY Part""" % condition)
@@ -62,6 +63,12 @@ def full(ui):       ## Making function to increase amount of parts
     elif ui.comboBox.currentText() == '50НР14':
         condition = "(Pumps = '50НР14' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1')"
         cur.execute("""SELECT Part FROM Details WHERE %s ORDER BY Part""" % condition)
+    elif ui.comboBox.currentText() == '50НР16':
+        condition = "(Pumps = '50НР16' OR Pumps = '50НР10/16' OR Pumps = '50НР10/16/32' OR Pumps = 'All' OR Pumps = 'All1')"
+        cur.execute("""SELECT Part FROM Details WHERE %s ORDER BY Part""" % condition)
+    elif ui.comboBox.currentText() == '50НР32':
+        condition = "(Pumps = '50НР32' OR Pumps = '50НР10/16/32' OR Pumps = 'All' OR Pumps = 'All1')"
+        cur.execute("""SELECT Part FROM Details WHERE %s ORDER BY Part""" % condition)
     if count_press % 2 == 0:
         ui.comboBox_2.setEnabled(True)
         ui.spinBox.setEnabled(True)
@@ -73,7 +80,6 @@ def full(ui):       ## Making function to increase amount of parts
         ui.comboBox_2.setDisabled(True)
         ui.spinBox.setDisabled(True)
         spin_value = ui.spinBox.value()
-        print(spin_value)
         if ui.comboBox_2.currentText() == 'Корпус':
             cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Корпус' AND %s""" % condition, (spin_value,))
         elif ui.comboBox_2.currentText() == 'Крышка передняя':
@@ -132,19 +138,21 @@ def load(ui):       ## Making function to insert data into QTableWidget
     if ui.comboBox.currentText() == '50НР4':
         cur.execute("""UPDATE Details SET Needed = 3 WHERE Pumps = 'All'""")
         cur_load.execute("""SELECT Part, Stock, Needed FROM Details WHERE Pumps = '50НР4' OR Pumps = '50НР4/6' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1' GROUP BY Part""")
-        # cur.execute("""UPDATE Details SET Needed = 3 WHERE Needed = 3""")
     elif ui.comboBox.currentText() == '50НР6.3':
         cur.execute("""UPDATE Details SET Needed = 5 WHERE Pumps = 'All'""")
         cur_load.execute("""SELECT Part, Stock, Needed FROM Details WHERE Pumps = '50НР6' OR Pumps = '50НР4/6' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1' GROUP BY Part""")
-        # cur.execute("""UPDATE Details SET Needed = 3 WHERE Needed = 5""")
     elif ui.comboBox.currentText() == '50НР10':
         cur.execute("""UPDATE Details SET Needed = 3 WHERE Pumps = 'All'""")
         cur_load.execute("""SELECT Part, Stock, Needed FROM Details WHERE Pumps = '50НР10' OR Pumps = '50НР10/16' OR Pumps = '50НР10/16/32' OR Pumps = 'All' OR Pumps = 'All1' GROUP BY Part""")
-        # cur.execute("""UPDATE Details SET Needed = 3 WHERE Needed = 3""")
     elif ui.comboBox.currentText() == '50НР14':
         cur.execute("""UPDATE Details SET Needed = 10 WHERE Pumps = 'All'""")
         cur_load.execute("""SELECT Part, Stock, Needed FROM Details WHERE Pumps = '50НР14' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1' GROUP BY Part""")
-        # cur.execute("""UPDATE Details SET Needed = 3 WHERE Needed = 10 AND Pumps = 'All'""")
+    elif ui.comboBox.currentText() == '50НР16':
+        cur.execute("""UPDATE Details SET Needed = 5 WHERE Pumps = 'All'""")
+        cur_load.execute("""SELECT Part, Stock, Needed FROM Details WHERE Pumps = '50НР16' OR Pumps = '50НР10/16' OR Pumps = '50НР10/16/32' OR Pumps = 'All' OR Pumps = 'All1' ORDER BY Part""")
+    elif ui.comboBox.currentText() == '50НР32':
+        cur.execute("""UPDATE Details SET Needed = 10 WHERE Pumps = 'All'""")
+        cur_load.execute("""SELECT Part, Stock, Needed FROM Details WHERE Pumps = '50НР32' OR Pumps = '50НР10/16/32' OR Pumps = 'All' OR Pumps = 'All1' ORDER BY Part""")
     ui.tableWidget.setRowCount(0)
     for row, form in enumerate(cur_load):
         ui.tableWidget.insertRow(row)
