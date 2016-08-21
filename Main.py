@@ -51,40 +51,69 @@ def full(ui):       ## Making function to increase amount of parts
     arow = 0
     i = []
     if ui.comboBox.currentText() == '50НР4':
-        condition = "Pumps = '50НР4' OR Pumps = '50НР4/6' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1'"
+        condition = "(Pumps = '50НР4' OR Pumps = '50НР4/6' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1')"
+        cur.execute("""SELECT Part FROM Details WHERE %s ORDER BY Part""" % condition)
     elif ui.comboBox.currentText() == '50НР6.3':
-        condition = "Pumps = '50НР6' OR Pumps = '50НР4/6' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1'"
+        condition = "(Pumps = '50НР6' OR Pumps = '50НР4/6' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1')"
+        cur.execute("""SELECT Part FROM Details WHERE %s ORDER BY Part""" % condition)
     elif ui.comboBox.currentText() == '50НР10':
-        condition = "Pumps = '50НР10' OR Pumps = '50НР10/16' OR Pumps = '50НР10/16/32' OR Pumps = 'All' OR Pumps = 'All1'"
+        condition = "(Pumps = '50НР10' OR Pumps = '50НР10/16' OR Pumps = '50НР10/16/32' OR Pumps = 'All' OR Pumps = 'All1')"
+        cur.execute("""SELECT Part FROM Details WHERE %s ORDER BY Part""" % condition)
     elif ui.comboBox.currentText() == '50НР14':
-        condition = "Pumps = '50НР14' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1'"
+        condition = "(Pumps = '50НР14' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1')"
+        cur.execute("""SELECT Part FROM Details WHERE %s ORDER BY Part""" % condition)
     if count_press % 2 == 0:
-        ui.tableWidget.setHorizontalHeaderItem(2, QtGui.QTableWidgetItem("Изменить на:"))
-        for table_row in range(0, 20):
-            ui.tableWidget.setCellWidget(table_row, 2, QtGui.QSpinBox())
-    elif count_press % 2 != 0:
-        ui.tableWidget.setHorizontalHeaderItem(2, QtGui.QTableWidgetItem("Требуется"))
-        for table_row in range(0, 20):
-            spin_value = ui.tableWidget.cellWidget(arow, 2).value()
-            i.append(spin_value)
-            ui.tableWidget.removeCellWidget(table_row, 2)
-            arow += 1
-        i = i
-        print(i)
-        print(len(i))
-        print(tuple(i))
-        print(len((i,)))
-        a = 0
-        cur.execute("""SELECT ROWID FROM Details WHERE %s""" % condition)
-        r = cur.fetchall()
-        r = [(w,) for w in r]
-        i = [(u,) for u in i]
-        for row in r:
-            for h in i:
-                cur.executemany("""UPDATE Details SET Stock = Stock - ? WHERE ROWID = ?""", [r, i])
-                a += 1
-        con.commit()
+        ui.comboBox_2.setEnabled(True)
+        ui.spinBox.setEnabled(True)
 
+        for row in cur.fetchall():
+            ui.comboBox_2.addItem(row[0])
+
+    elif count_press % 2 != 0:
+        ui.comboBox_2.setDisabled(True)
+        ui.spinBox.setDisabled(True)
+        spin_value = ui.spinBox.value()
+        print(spin_value)
+        if ui.comboBox_2.currentText() == 'Корпус':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Корпус' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Крышка передняя':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Крышка передняя' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Крышка задняя':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Крышка задняя' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Шайбы гров М8':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Шайбы гров М8' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Шарик 11,112':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Шарик 11,112' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Подшипник 310':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Подшипник 310' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Манжета 38х58':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Манжета 38х58' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Винты М8х25':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Винты М8х25' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Кольцо передней крышки':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Кольцо передней крышки' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Кольцо ст. 3':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Кольцо ст. 3' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Корпус клапана':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Корпус клапана' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Седло клапана':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Седло клапана' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Колпачок':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Колпачок' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Прокладка паронит':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Прокладка паронит' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Кольцо замковое':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Кольцо замковое' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Противовес':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Противовес' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Вал':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Вал' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Пружина':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Пружина' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Подпятник':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Подпятник' AND %s""" % condition, (spin_value,))
+        ui.spinBox.setValue(0)
+        ui.comboBox_2.clear()
     count_press += 1
 
 
