@@ -1,30 +1,35 @@
 import sqlite3
 from PyQt4 import QtCore, QtGui
 import GUI
-import sys      ## Importing SQLite3, PyQt4, Gui - file made with QtDesigner, sys.
-
+import sys
+from openpyxl import load_workbook   # Importing SQLite3, PyQt4, Gui - file made with QtDesigner, sys, openpyxl to work with Excel table.
+from datetime import datetime
 
 con = sqlite3.connect("Pumps.db")
-cur = con.cursor()      ## Connecting with database and make a cursor
+cur = con.cursor()      # Connecting with database and make a cursor
 cur_load = con.cursor()
+
+wb = load_workbook('Orders.xlsx')
+ws = wb.get_sheet_by_name('Main')
 
 app = QtGui.QApplication(sys.argv)
 Dialog = QtGui.QWidget()
 ui = GUI.Ui_Dialog()
 ui.setupUi(Dialog)
 Dialog.setFixedSize(645, 692)
-Dialog.setWindowIcon(QtGui.QIcon('5571.ico'))   ## Making application and setting it right
-count_press = 2
+Dialog.setWindowIcon(QtGui.QIcon('5571.ico'))   # Making application and setting it right
 
+count_press = 2
 
 QtCore.QObject.connect(ui.pushButton, QtCore.SIGNAL("clicked()"), lambda: count())
 QtCore.QObject.connect(ui.pushButton_2, QtCore.SIGNAL("clicked()"), Dialog, QtCore.SLOT('close()'))
 QtCore.QObject.connect(ui.pushButton_3, QtCore.SIGNAL("clicked()"), lambda: full(ui))
 QtCore.QObject.connect(ui.pushButton_4, QtCore.SIGNAL("clicked()"), lambda: stock(ui))
-QtCore.QObject.connect(ui.comboBox, QtCore.SIGNAL("activated(const QString&)"), lambda: load(ui))   ## Connecting functions with widgets
+QtCore.QObject.connect(ui.comboBox, QtCore.SIGNAL("activated(const QString&)"), lambda: load(ui))   # Connecting functions with widgets
 
 
-def count():      ## Making function to count SQLite3 data
+def count():      # Making function to count SQLite3 data
+    global wb, ws
     if ui.comboBox.currentText() == '50НР4':
         condition = "Pumps = '50НР4' OR Pumps = '50НР4/6' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1'"
     elif ui.comboBox.currentText() == '50НР6.3':
@@ -40,16 +45,16 @@ def count():      ## Making function to count SQLite3 data
     cur.execute("""UPDATE Details SET Stock = Stock - Needed WHERE %s""" % condition)
     cur.execute("""UPDATE Details SET Needed = 3 WHERE Pumps = 'All'""")
     con.commit()
-    """
 
-    msg = QtGui.QInputDialog()
-    a = msg.getText(msg, 'Введите', 'Введите')
-    NEW FEATURE!
+    customer = QtGui.QInputDialog()
+    a = customer.getText(customer, 'Введите ФИО/Компанию заказчика', 'ФИО/Компания')
+    data_add = (ui.comboBox.currentText(), datetime.today().date())
+    final_data = a[:1] + data_add
+    ws.append(final_data)
+    wb.save('Orders.xlsx')
 
-    """
 
-
-def full(ui):       ## Making function to increase amount of parts
+def full(ui):       # Making function to increase amount of parts
     global count_press
     if ui.comboBox.currentText() == '50НР4':
         condition = "(Pumps = '50НР4' OR Pumps = '50НР4/6' OR Pumps = '50НР4/6/14' OR Pumps = 'All' OR Pumps = 'All1')"
@@ -123,7 +128,7 @@ def full(ui):       ## Making function to increase amount of parts
     count_press += 1
 
 
-def stock(ui):      ## Making function to show full stock
+def stock(ui):      # Making function to show full stock
     cur.execute("""SELECT Part, Stock, Pumps FROM Details""")
     ui.tableWidget.setHorizontalHeaderItem(2, QtGui.QTableWidgetItem('Насос'))
     for row,form in enumerate(cur):
@@ -133,7 +138,7 @@ def stock(ui):      ## Making function to show full stock
             ui.tableWidget.setItem(row, column, QtGui.QTableWidgetItem(str(item)))
 
 
-def load(ui):       ## Making function to insert data into QTableWidget
+def load(ui):       # Making function to insert data into QTableWidget
     ui.tableWidget.setHorizontalHeaderItem(2, QtGui.QTableWidgetItem('Требуется'))
     if ui.comboBox.currentText() == '50НР4':
         cur.execute("""UPDATE Details SET Needed = 3 WHERE Pumps = 'All'""")
