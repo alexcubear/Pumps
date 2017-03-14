@@ -123,6 +123,8 @@ def full(ui):       # Making function to increase amount of parts
             cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Пружина' AND %s""" % condition, (spin_value,))
         elif ui.comboBox_2.currentText() == 'Подпятник':
             cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Подпятник' AND %s""" % condition, (spin_value,))
+        elif ui.comboBox_2.currentText() == 'Поршень':
+            cur.execute("""UPDATE Details SET Stock = Stock + ? WHERE Part = 'Поршень' AND %s""" % condition, (spin_value,))
         ui.spinBox.setValue(0)
         ui.comboBox_2.clear()
     count_press += 1
